@@ -20,6 +20,12 @@ bool ModuleSceneIntro::Start()
 	App->camera->Move(vec3(1.0f, 1.0f, 0.0f));
 	App->camera->LookAt(vec3(0, 0, 0));
 
+	Cube prueba1;
+	prueba1.size = vec3(10, 10, 10);
+	prueba1.SetPos(15, 0, 0);
+	prueba1.color = Blue;
+	App->physics->AddBody(prueba1, 0);
+
 	return ret;
 }
 
