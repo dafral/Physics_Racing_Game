@@ -2,8 +2,6 @@
 #include "Application.h"
 #include "PhysBody3D.h"
 #include "ModuleCamera3D.h"
-#include "ModulePlayer.h"
-#include "PhysVehicle3D.h"
 
 ModuleCamera3D::ModuleCamera3D(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
@@ -13,8 +11,8 @@ ModuleCamera3D::ModuleCamera3D(Application* app, bool start_enabled) : Module(ap
 	Y = vec3(0.0f, 1.0f, 0.0f);
 	Z = vec3(0.0f, 0.0f, 1.0f);
 
-	Position = vec3(0, 12, 10);
-	Reference = vec3(0, 12, 10);
+	Position = vec3(0.0f, 0.0f, 5.0f);
+	Reference = vec3(0.0f, 0.0f, 0.0f);
 }
 
 ModuleCamera3D::~ModuleCamera3D()
@@ -45,9 +43,6 @@ update_status ModuleCamera3D::Update(float dt)
 
 	vec3 newPos(0,0,0);
 	float speed = 3.0f * dt;
-
-	/*Position = App->player->vehicle->vehicle->getForwardAxis();
-
 	if(App->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_REPEAT)
 		speed = 8.0f * dt;
 
@@ -99,7 +94,7 @@ update_status ModuleCamera3D::Update(float dt)
 		}
 
 		Position = Reference + Z * length(Position);
-	}*/
+	}
 
 	// Recalculate matrix -------------
 	CalculateViewMatrix();

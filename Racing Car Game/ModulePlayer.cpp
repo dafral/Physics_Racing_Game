@@ -4,7 +4,6 @@
 #include "Primitive.h"
 #include "PhysVehicle3D.h"
 #include "PhysBody3D.h"
-#include "ModuleCamera3D.h"
 
 //this defines are for the lookat()
 #define CAMERA_X App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getX() + 10 * App->player->vehicle->vehicle->getForwardVector().getX()
