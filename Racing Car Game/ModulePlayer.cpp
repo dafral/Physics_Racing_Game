@@ -27,7 +27,7 @@ bool ModulePlayer::Start()
 	// Car properties ----------------------------------------
 	car.chassis_size.Set(2, 2, 4);
 	car.chassis_offset.Set(0, 1.5, 0);
-	car.mass = 500.0f;
+	car.mass = 100.0f;
 	car.suspensionStiffness = 15.88f;
 	car.suspensionCompression = 0.83f;
 	car.suspensionDamping = 0.88f;
@@ -119,6 +119,9 @@ update_status ModulePlayer::Update(float dt)
 {
 	turn = acceleration = brake = 0.0f;
 
+	/*for (uint i = 0; i < App->scene_intro->road.Count(); i++)
+		App->scene_intro->OnCollision(App->scene_intro->road[i], vehicle, &App->scene_intro->road_cubes[i]);*/
+
 	if(App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
 	{
 		acceleration = MAX_ACCELERATION;
@@ -160,6 +163,8 @@ update_status ModulePlayer::Update(float dt)
 
 	return UPDATE_CONTINUE;
 }
+
+
 
 
 

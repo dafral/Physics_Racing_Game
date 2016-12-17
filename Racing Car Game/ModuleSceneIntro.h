@@ -22,6 +22,26 @@ public:
 	void OnCollision(PhysBody3D* body1, PhysBody3D* body2);
 
 public:
+	
+	p2DynArray<PhysBody3D*> road;
+	p2DynArray<PhysBody3D*> turbo_road;
+	p2DynArray<PhysBody3D*> slow_road;
+
+	p2DynArray<Cube> road_cubes;
+	
+
+	//special cubes
+	Cube platform;
+	Sphere motor;
+
+	Cube floor;
+
+	Cube turbo;
+	
+	Cube falling;
+	
+	Cube slow;
+
 	Cube s;
 	PhysBody3D* sensor;
 };

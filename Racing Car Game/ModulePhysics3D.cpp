@@ -57,13 +57,13 @@ bool ModulePhysics3D::Start()
 
 	// Big plane as ground
 	{
-		btCollisionShape* colShape = new btStaticPlaneShape(btVector3(0, 1, 0), 0);
+		/*btCollisionShape* colShape = new btStaticPlaneShape(btVector3(0, 1, 0), 0);
 
 		btDefaultMotionState* myMotionState = new btDefaultMotionState();
 		btRigidBody::btRigidBodyConstructionInfo rbInfo(0.0f, myMotionState, colShape);
 
 		btRigidBody* body = new btRigidBody(rbInfo);
-		world->addRigidBody(body);
+		world->addRigidBody(body);*/
 	}
 
 	return true;
@@ -352,6 +352,12 @@ void ModulePhysics3D::AddConstraintHinge(PhysBody3D& bodyA, PhysBody3D& bodyB, c
 		btVector3(axisA.x, axisA.y, axisA.z), 
 		btVector3(axisB.x, axisB.y, axisB.z));
 
+	//btScalar a = hinge->getBreakingImpulseThreshold();
+
+	//hinge->enableAngularMotor(true, 100000000, 1000);
+
+	//hinge->setLimit(10, 500, 0.9,0.3,1.0);
+	
 	world->addConstraint(hinge, disable_collision);
 	constraints.add(hinge);
 	hinge->setDbgDrawSize(2.0f);
