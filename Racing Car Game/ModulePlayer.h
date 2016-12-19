@@ -9,6 +9,8 @@ struct PhysVehicle3D;
 #define TURN_DEGREES 15.0f * DEGTORAD
 #define BRAKE_POWER 1000.0f
 
+enum state { NORMAL, FAST, SLOW };
+
 class ModulePlayer : public Module
 {
 public:
@@ -25,4 +27,5 @@ public:
 	float turn;
 	float acceleration;
 	float brake;
+	state car_state = NORMAL;
 };

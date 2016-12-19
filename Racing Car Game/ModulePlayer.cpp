@@ -124,7 +124,19 @@ update_status ModulePlayer::Update(float dt)
 
 	if(App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
 	{
-		acceleration = MAX_ACCELERATION;
+		if (car_state == NORMAL) {
+			acceleration = MAX_ACCELERATION;
+		}
+
+		else if (car_state == FAST) {
+			acceleration = MAX_ACCELERATION * 1.2;
+			car_state = NORMAL;
+		}
+
+		else if (car_state == SLOW) {
+			acceleration = MAX_ACCELERATION * 0.5;
+		}
+
 	}
 
 	if(App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
