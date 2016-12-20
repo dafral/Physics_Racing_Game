@@ -38,8 +38,9 @@ public:
 	Sphere motor;
 
 	Cube sensor;
-
 	Cube s;
-
 	PhysBody3D* body_sensor;
+
+	Timer race_time;
+	uint laps = 0;
 };

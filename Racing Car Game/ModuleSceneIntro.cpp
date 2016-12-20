@@ -18,6 +18,8 @@ bool ModuleSceneIntro::Start()
 	LOG("Loading Intro assets");
 	bool ret = true;
 	
+	race_time.Start();
+
 	//----------ROTATING PLATFORM--------------
 	/*motor.radius = 1.0;
 	motor.SetPos(0, 2, 100);
@@ -49,7 +51,7 @@ bool ModuleSceneIntro::Start()
 	
 	-------AQUI CREAMOS EL SENSOR--------
 
-	sensor.size = vec3(10, 10, 20); -----------------> usa siempre sensor y body sensor, no crees mas variables
+	sensor.size = vec3(10, 10, 20); -----------------> usa siempre sensor y body_sensor, no crees mas variables
 	sensor.SetPos(0, 0, 25);
 
 	body_sensor = App->physics->AddBody(sensor, 0);
@@ -61,7 +63,7 @@ bool ModuleSceneIntro::Start()
 
 
 	road_cubes[0].SetPos(0, 0, 5);
-	road_cubes[0].size = vec3(10, 1, 20);
+	road_cubes[0].size = vec3(10, 1, 20); //<------------ pon todos con vec3 como este
 	
 	road_cubes[1].SetPos(0, 0, 0);
 	road_cubes[1].size = { 20, 10, 50 };
@@ -117,7 +119,7 @@ bool ModuleSceneIntro::Start()
 	road_cubes[14].SetRotation(-10.0f, { 0,1,0 });
 	
 	road_cubes[15].SetPos(-20, 0, -30);
-	road_cubes[15].size = { 20,4, 20 };
+	road_cubes[15].size = { 20, 4, 20 };
 
 	
 	for (uint i = 0; i < road_cubes.Count(); i++) {
