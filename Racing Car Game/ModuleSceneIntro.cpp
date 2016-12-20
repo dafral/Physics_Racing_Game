@@ -4,6 +4,12 @@
 #include "Primitive.h"
 #include "PhysBody3D.h"
 #include "ModulePlayer.h"
+#include "PhysVehicle3D.h"
+
+#define CHEATING1 App->player->check_position.x == cp_coords[0].x && App->player->check_position.y == cp_coords[0].y && App->player->check_position.y == cp_coords[0].y 
+#define CHEATING2 App->player->check_position.x == cp_coords[1].x && App->player->check_position.y == cp_coords[1].y && App->player->check_position.y == cp_coords[1].y 
+#define CHECK3 App->player->check_position.x == cp_coords[3].x && App->player->check_position.y == cp_coords[3].y && App->player->check_position.z == cp_coords[3].z
+#define CHECK0 App->player->check_position.x == cp_coords[0].x && App->player->check_position.y == cp_coords[0].y && App->player->check_position.z == cp_coords[0].z
 
 ModuleSceneIntro::ModuleSceneIntro(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
@@ -21,6 +27,7 @@ bool ModuleSceneIntro::Start()
 	race_time.Start();
 
 	//We create here how many cubes we need to make the map
+	//ACORDARSE DE CAMBIAR ESTO!!!!!!!!!! 
 	for (uint i = 0; i < 100; i++) {
 		Cube map_cube;
 		road_cubes.PushBack(map_cube);
@@ -179,13 +186,46 @@ bool ModuleSceneIntro::Start()
 	road_cubes[23].size = vec3(90, 1, 20);
 	road_cubes[23].SetRotation(-60.0f, vec3(0, 1, 0));
 
-	//final : 0 0 -35
-
 	for (uint i = 0; i < road_cubes.Count(); i++) {
 		PhysBody3D* body;
 		body = App->physics->AddBody(road_cubes[i], 0);
 		road.PushBack(body);
 	}
+
+	//CHECKPOINT CREATION
+	cp_coords.PushBack(vec3( 0, 2, -22 ));
+	cp_coords.PushBack(vec3( -250, 2, 182 ));
+	cp_coords.PushBack(vec3(-349, 2, 355));
+	cp_coords.PushBack(vec3( -300, -18, -100 ));
+
+	for (uint i = 0; i < 4; i++) {
+		Cube map_cube;
+		map_cube.size = vec3(2, 100, 2);
+		map_cube.SetPos(cp_coords[i].x, cp_coords[i].y, cp_coords[i].z);
+		map_cube.color = Red;
+
+		cp_cubes.PushBack(map_cube);
+
+		checkpoints.PushBack(App->physics->AddBody(map_cube, 0));
+		checkpoints[i]->SetAsSensor(true);
+		checkpoints[i]->collision_listeners.add(this);
+	}
+
+	//DEATH BLOCKS CREATION
+	Cube map_cube;
+	map_cube.size = vec3(1000, 1, 1000);
+	map_cube.SetPos( 0, -8, 0 );
+
+	//anti-cheaters block :^)
+	death_blocks.PushBack(App->physics->AddBody(map_cube, 0));
+	death_blocks[0]->SetAsSensor(true);
+	death_blocks[0]->collision_listeners.add(this);
+
+	map_cube.SetPos(0, -25, 0);
+	death_blocks.PushBack(App->physics->AddBody(map_cube, 0));
+	death_blocks[1]->SetAsSensor(true);
+	death_blocks[1]->collision_listeners.add(this);
+	
 
 	return ret;
 
@@ -202,31 +242,63 @@ bool ModuleSceneIntro::CleanUp()
 // Update
 update_status ModuleSceneIntro::Update(float dt)
 {
-	/*Plane p(0, 1, 0, 0);
-	p.axis = true;
-	p.Render();
-
-	body_sensor->GetTransform(&s.transform);
-	s.Render();*/
 
 	for (uint i = 0; i < road_cubes.Count(); i++)
 		road_cubes[i].Render();
 
+	if((cp_coords[3].x == App->player->check_position.x && cp_coords[3].y == App->player->check_position.y && cp_coords[3].z == App->player->check_position.z))
+		cp_cubes[0].Render();
+
+	else {
+		for (uint i = 0; i < cp_coords.Count() - 1; i++) {
+			if (cp_coords[i].x == App->player->check_position.x && cp_coords[i].y == App->player->check_position.y && cp_coords[i].z == App->player->check_position.z)
+				cp_cubes[i + 1].Render();
+		}
+	}
+	
 	return UPDATE_CONTINUE;
 }
 
 void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 {
-	/*for (int i = 0; i < turbo_road.Count(); i++) {
+	for (int i = 0; i < turbo_road.Count(); i++) {
 		if (turbo_road[i] == body1) {
 			App->player->car_state = FAST;
 		}
 
-		for (int i = 0; i < turbo_road.Count(); i++) {
+		//CUANDO PONGAS BLOQUES DE SLOW QUITA ESTE COMENT
+		/*for (int i = 0; i < turbo_road.Count(); i++) {
 			if (slow_road[i] == body1) {
 				App->player->car_state = SLOW;
 			}
+		}*/
+
+		for (int i = 0; i < checkpoints.Count(); i++) {
+			if (checkpoints[i] == body1) {
+				//these ifs avoid skipping checkpoints
+				if (i == 0 && (CHECK0 || CHECK3)) {
+					App->player->check_position = cp_coords[i];
+					App->player->vehicle->GetTransform(App->player->idle_trans);
+					if (CHECK3)
+						laps++;
+				}
+				else if (App->player->check_position.x == cp_coords[i - 1].x && App->player->check_position.y == cp_coords[i - 1].y && App->player->check_position.z == cp_coords[i - 1].z){
+					App->player->check_position = cp_coords[i];
+					App->player->vehicle->GetTransform(App->player->idle_trans);
+				}
+			}
+
+		if (death_blocks[1] == body1) {
+			App->player->vehicle->SetPos(App->player->check_position.x, App->player->check_position.y, App->player->check_position.z);
+			App->player->vehicle->SetTransform(App->player->idle_trans);
 		}
-	}*/
+
+		else if(death_blocks[0] == body1)
+			if (CHEATING1 || CHEATING2) {
+				App->player->vehicle->SetPos(App->player->check_position.x, App->player->check_position.y, App->player->check_position.z);
+				App->player->vehicle->SetTransform(App->player->idle_trans);
+			}
+		}
+	}
 }
 

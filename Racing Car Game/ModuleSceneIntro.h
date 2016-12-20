@@ -26,10 +26,13 @@ public:
 	p2DynArray<PhysBody3D*> road;
 	p2DynArray<PhysBody3D*> turbo_road;
 	p2DynArray<PhysBody3D*> slow_road;
+	p2DynArray<PhysBody3D*> death_blocks;
 
 	p2DynArray<Cube> road_cubes;
-	p2DynArray<Cube> checkpoints;
-	// Normal cubes
+
+	p2DynArray<vec3> cp_coords;
+	p2DynArray<Cube> cp_cubes;
+	p2DynArray<PhysBody3D*> checkpoints;
 
 	Cube sens;
 	PhysBody3D* ramp_sensor;

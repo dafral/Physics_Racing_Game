@@ -14,7 +14,7 @@ enum state { NORMAL, FAST, SLOW };
 class ModulePlayer : public Module
 {
 private:
-	VehicleInfo car;
+	//VehicleInfo car;
 
 public:
 	ModulePlayer(Application* app, bool start_enabled = true);
@@ -30,6 +30,8 @@ public:
 	float turn;
 	float acceleration;
 	float brake;
-	vec3 last_pos;
+
+	float idle_trans[16];
+	vec3 check_position;
 	state car_state = NORMAL;
 };

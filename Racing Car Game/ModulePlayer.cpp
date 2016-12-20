@@ -24,12 +24,12 @@ bool ModulePlayer::Start()
 	LOG("Loading player");
 
 	VehicleInfo car;
-	last_pos = { 0, 12, -22 };
-	//last_pos = { -250, 0, 182 };
-	//last_pos = {-349, 0, 355};
-	//last_pos = { -300, -18, -100 };
-	//last_pos = 	{-50, 0, -100 };
-	StartCar(last_pos);
+	
+	check_position = App->scene_intro->cp_coords[0];
+	StartCar(check_position);
+
+	vehicle->GetTransform(idle_trans);
+
 	return true;
 }
 
@@ -45,9 +45,6 @@ bool ModulePlayer::CleanUp()
 update_status ModulePlayer::Update(float dt)
 {
 	turn = acceleration = brake = 0.0f;
-
-	/*for (uint i = 0; i < App->scene_intro->road.Count(); i++)
-		App->scene_intro->OnCollision(App->scene_intro->road[i], vehicle, &App->scene_intro->road_cubes[i]);*/
 
 	if(App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
 	{
@@ -92,7 +89,8 @@ update_status ModulePlayer::Update(float dt)
 
 	if (App->input->GetKey(SDL_SCANCODE_R) == KEY_DOWN)
 	{
-		StartCar(last_pos);
+		vehicle->SetPos(check_position.x, check_position.y, check_position.z);
+		vehicle->SetTransform(idle_trans);
 	}
 
 
@@ -118,6 +116,7 @@ update_status ModulePlayer::Update(float dt)
 
 void ModulePlayer::StartCar(vec3 pos) {
 
+	VehicleInfo car;
 	// Car properties ----------------------------------------
 	car.chassis_size.Set(2, 1, 4);
 	car.chassis_offset.Set(0, 1.5, 0);
