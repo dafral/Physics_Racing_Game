@@ -7,6 +7,7 @@
 
 //this defines are for the lookat()
 #define CAMERA_X App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getX() + 10 * App->player->vehicle->vehicle->getForwardVector().getX()
+#define CAMERA_Y App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getY() - 3 //* App->player->vehicle->vehicle->getForwardVector().getY()
 #define CAMERA_Z App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getZ() + 10 * App->player->vehicle->vehicle->getForwardVector().getZ()
 
 ModulePlayer::ModulePlayer(Application* app, bool start_enabled) : Module(app, start_enabled), vehicle(NULL)
@@ -23,7 +24,9 @@ bool ModulePlayer::Start()
 	LOG("Loading player");
 
 	VehicleInfo car;
-	last_pos = { 0, 12, -22 };
+	//last_pos = { 0, 12, -22 };
+	//last_pos = { -250, 0, 182 };
+	last_pos = {-349, 0, 355};
 	StartCar(last_pos);
 	return true;
 }
@@ -80,6 +83,11 @@ update_status ModulePlayer::Update(float dt)
 		acceleration = -1000.0;
 	}
 
+	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_REPEAT)
+	{
+		brake = BRAKE_POWER;
+	}
+
 	if (App->input->GetKey(SDL_SCANCODE_R) == KEY_DOWN)
 	{
 		StartCar(last_pos);
@@ -91,7 +99,7 @@ update_status ModulePlayer::Update(float dt)
 	App->camera->Position.z = App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getZ() - 10 * App->player->vehicle->vehicle->getForwardVector().getZ();
 	App->camera->Position.y = App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getY() + 8 * App->player->vehicle->vehicle->getUpAxis();
 
-	App->camera->LookAt(vec3(CAMERA_X, 0, CAMERA_Z));
+	App->camera->LookAt(vec3(CAMERA_X, CAMERA_Y, CAMERA_Z));
 
 	vehicle->ApplyEngineForce(acceleration);
 	vehicle->Turn(turn);
@@ -110,9 +118,9 @@ void ModulePlayer::StartCar(vec3 pos) {
 	VehicleInfo car;
 
 	// Car properties ----------------------------------------
-	car.chassis_size.Set(2, 2, 4);
+	car.chassis_size.Set(2, 1, 4);
 	car.chassis_offset.Set(0, 1.5, 0);
-	car.mass = 400.0f;
+	car.mass = 250.0f;
 	car.suspensionStiffness = 15.88f;
 	car.suspensionCompression = 0.83f;
 	car.suspensionDamping = 0.88f;

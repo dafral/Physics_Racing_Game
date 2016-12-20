@@ -62,7 +62,7 @@ bool ModuleSceneIntro::Start()
 	*/
 
 
-	road_cubes[0].SetPos(0, 0, 5);
+	/*road_cubes[0].SetPos(0, 0, 5);
 	road_cubes[0].size = vec3(10, 1, 20); //<------------ pon todos con vec3 como este
 	
 	road_cubes[1].SetPos(0, 0, 0);
@@ -166,7 +166,96 @@ bool ModuleSceneIntro::Start()
 
 	road_cubes[28].SetPos(0, 2, -145);
 	road_cubes[28].size = vec3(20, 7, 20);
-	road_cubes[28].SetRotation(-45.0f, { 0,1,0 });
+	road_cubes[28].SetRotation(-45.0f, { 0,1,0 });*/
+
+	road_cubes[0].SetPos(0, 0, 5);
+	road_cubes[0].size = vec3(15, 1, 80);
+
+	road_cubes[1].SetPos(-5, 0, 50);
+	road_cubes[1].size = vec3(15, 1, 30);
+	road_cubes[1].SetRotation(-45.0f, { 0,1,0 });
+
+	road_cubes[2].SetPos(-15, 0, 80);
+	road_cubes[2].size = vec3(15, 1, 40);
+
+	//turbo 1
+	road_cubes[3].SetPos(-18.75, 0, 115);
+	road_cubes[3].size = vec3(7.5, 1, 30);
+	road_cubes[3].color = Green;
+	sensor.size = vec3(7.5, 20, 30);
+	sensor.SetPos(-18.75, 0, 115);
+	body_sensor = App->physics->AddBody(sensor, 0);
+	body_sensor->SetAsSensor(true);
+	body_sensor->collision_listeners.add(this);
+	turbo_road.PushBack(body_sensor);
+
+	road_cubes[4].SetPos(-11.25, 0, 115);
+	road_cubes[4].size = vec3(7.5, 1, 30);
+
+	//turbo 2
+	road_cubes[5].SetPos(-11.25, 0, 145);
+	road_cubes[5].size = vec3(7.5, 1, 30);
+	road_cubes[5].color = Green;
+	sensor.size = vec3(7.5, 20, 30);
+	sensor.SetPos(-11.25, 0, 145);
+	body_sensor = App->physics->AddBody(sensor, 0);
+	body_sensor->SetAsSensor(true);
+	body_sensor->collision_listeners.add(this);
+	turbo_road.PushBack(body_sensor);
+
+	road_cubes[6].SetPos(-18.75, 0, 145);
+	road_cubes[6].size = vec3(7.5, 1, 30);
+
+	road_cubes[7].SetPos(-25, 0, 170);
+	road_cubes[7].size = vec3(15, 1, 30);
+	road_cubes[7].SetRotation(-45.0f, { 0,1,0 });
+
+	road_cubes[8].SetPos(-50, 0, 182);
+	road_cubes[8].size = vec3(15, 1, 40);
+	road_cubes[8].SetRotation(-90.0f, { 0,1,0 });
+
+	//turbo 3
+	road_cubes[9].SetPos(-80, 0, 182);
+	road_cubes[9].size = vec3(15, 1, 20);
+	road_cubes[9].SetRotation(-90.0f, { 0,1,0 });
+	road_cubes[9].color = Green;
+	sensor.size = vec3(15, 20, 20);
+	sensor.SetPos(-80, 0, 182);
+	body_sensor = App->physics->AddBody(sensor, 0);
+	body_sensor->SetAsSensor(true);
+	body_sensor->collision_listeners.add(this);
+	turbo_road.PushBack(body_sensor);
+
+	//rampa 1
+	road_cubes[10].SetPos(-90, 0, 182);
+	road_cubes[10].size = vec3(15, 1, 20);
+	road_cubes[10].SetRotation(-90.0f, vec3(0.2, 1, 0.2));
+
+	road_cubes[11].SetPos(-250, 0, 182);
+	road_cubes[11].size = vec3(40, 1, 150);
+	road_cubes[11].SetRotation(-90.0f, vec3(0, 1, 0));
+
+	road_cubes[12].SetPos(-330, 0, 210);
+	road_cubes[12].size = vec3(15, 1, 40);
+	road_cubes[12].SetRotation(-45.0f, vec3(0, 1, 0));
+
+	//thin platform
+	road_cubes[13].SetPos(-345, 0, 250);
+	road_cubes[13].size = vec3(5, 1, 60);
+
+	road_cubes[14].SetPos(-348, 0, 310);
+	road_cubes[14].size = vec3(5, 1, 60);
+
+	road_cubes[15].SetPos(-349, 0, 355);
+	road_cubes[15].size = vec3(30, 1, 30);
+
+	road_cubes[16].SetPos(-330, -10, 355);
+	road_cubes[16].size = vec3(15, 1, 60);
+	road_cubes[16].SetRotation(-45.0f, vec3(-0.2, 1, -0.2));
+
+
+
+
 
 
 	//road_cubes[23].SetRotation(-90.0f, { 0,1,0 });
