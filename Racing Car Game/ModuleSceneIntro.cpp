@@ -5,11 +5,6 @@
 #include "PhysBody3D.h"
 #include "ModulePlayer.h"
 
-#define WHITE (cube->color.r == 1) && (cube->color.g == 1) && (cube->color.b == 1)
-#define BLACK (cube->color.r == 0) && (cube->color.g == 0) && (cube->color.b == 0)
-#define RED (cube->color.r == 1) && (cube->color.g == 0) && (cube->color.b == 0)
-#define GREEN (cube->color.r == 0) && (cube->color.g == 1) && (cube->color.b == 0)
-
 ModuleSceneIntro::ModuleSceneIntro(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
 }
@@ -36,74 +31,58 @@ bool ModuleSceneIntro::Start()
 
 	App->physics->AddConstraintHinge(*bodyA, *bodyB, vec3(0,0,0), vec3(25,0,25), vec3(0, 1, 0), vec3(0, 1, 0), true);*/
 
+	//We create here how many cubes we need to make the map
+	for (uint i = 0; i < 100; i++) {
+		Cube map_cube;
+		road_cubes.PushBack(map_cube);
+	}
 
-	//normal blocks
-	floor.size = vec3(10, 1, 20);
-	floor.SetPos(0, 0, 5);
+	//position, color and size of the blocks (MAP CREATION)
+	//Green for turbo, Black for slow, Red for falling and no color specification to normal cubes
+	road_cubes[0].size = vec3(10, 1, 20);
+	road_cubes[0].SetPos(0, 0, 5);
+
+	road_cubes[1].size = vec3(10, 1, 20);
+	road_cubes[1].SetPos(0, 0, 25);
+	road_cubes[1].color = Green;
+
+	sensor.size = vec3(10, 10, 20);
+	sensor.SetPos(0, 0, 25);
 	
-	road_cubes.PushBack(floor);
-
-	//turbo block
-	turbo.size = vec3(10, 1, 20);
-	turbo.SetPos(0, 0, 25);
-	turbo.color = Green;
-
-	road_cubes.PushBack(turbo);
-
-	Cube turbo_sensor;
-	turbo_sensor.size = vec3(10, 10, 20);
-	turbo_sensor.SetPos(0, 0, 25);
-	
-	PhysBody3D* turbo;
-	turbo = App->physics->AddBody(turbo_sensor, 0);
-	turbo->SetAsSensor(true);
-	turbo->collision_listeners.add(this);
-
-	turbo_road.PushBack(turbo);
-
+	body_sensor = App->physics->AddBody(sensor, 0);
+	body_sensor->SetAsSensor(true);
+	body_sensor->collision_listeners.add(this);
+	turbo_road.PushBack(body_sensor);
 
 	//slow block
-	slow.size = vec3(10, 1, 20);
-	slow.SetPos(0, 0, 45);
-	slow.color = Black;
-	
-	road_cubes.PushBack(slow);
+	road_cubes[2].size = vec3(10, 1, 20);
+	road_cubes[2].SetPos(0, 0, 45);
+	road_cubes[2].color = Black;
 
-	Cube slow_sensor;
-	slow_sensor.size = vec3(10, 10, 20);
-	slow_sensor.SetPos(0, 0, 45);
+	sensor.SetPos(0, 0, 45);
 
-	PhysBody3D* slow;
-	slow = App->physics->AddBody(slow_sensor, 0);
-	slow->SetAsSensor(true);
-	slow->collision_listeners.add(this);
-
-	slow_road.PushBack(slow);
+	body_sensor = App->physics->AddBody(sensor, 0);
+	body_sensor->SetAsSensor(true);
+	body_sensor->collision_listeners.add(this);
+	slow_road.PushBack(body_sensor);
 
 	//falling block
-	falling.size = vec3(10, 1, 20);
-	falling.SetPos(0, 0, 65);
-	falling.color = Red;
-	
-	road_cubes.PushBack(falling);
+	road_cubes[3].size = vec3(10, 1, 20);
+	road_cubes[3].SetPos(0, 0, 65);
+	road_cubes[3].color = Red;
 
 	for (uint i = 0; i < road_cubes.Count(); i++) {
 		PhysBody3D* body;
 		body = App->physics->AddBody(road_cubes[i], 0);
 		road.PushBack(body);
-		/*if (road_cubes[i].size.y == 3) {
-			turbo_road.PushBack(body);
-			turbo_road[turbo_road.Count() - 1]->SetAsSensor(true);
-			//turbo_road[turbo_road.Count() - 1]->collision_listeners.add(this);
-		}*/
 	}
 
 	s.size = vec3(5, 3, 1);
 	s.SetPos(100, 2.5f, 20);
 
-	sensor = App->physics->AddBody(s, 0.0f);
-	sensor->SetAsSensor(true);
-	sensor->collision_listeners.add(this);
+	body_sensor = App->physics->AddBody(s, 0.0f);
+	body_sensor->SetAsSensor(true);
+	body_sensor->collision_listeners.add(this);
 
 	return ret;
 
@@ -124,7 +103,7 @@ update_status ModuleSceneIntro::Update(float dt)
 	p.axis = true;
 	p.Render();
 
-	sensor->GetTransform(&s.transform);
+	body_sensor->GetTransform(&s.transform);
 	s.Render();
 
 	for (uint i = 0; i < road_cubes.Count(); i++)
@@ -143,7 +122,6 @@ void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 		for (int i = 0; i < turbo_road.Count(); i++) {
 			if (slow_road[i] == body1) {
 				App->player->car_state = SLOW;
-
 			}
 		}
 	}

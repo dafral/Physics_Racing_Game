@@ -27,7 +27,7 @@ bool ModulePlayer::Start()
 	// Car properties ----------------------------------------
 	car.chassis_size.Set(2, 2, 4);
 	car.chassis_offset.Set(0, 1.5, 0);
-	car.mass = 100.0f;
+	car.mass = 400.0f;
 	car.suspensionStiffness = 15.88f;
 	car.suspensionCompression = 0.83f;
 	car.suspensionDamping = 0.88f;
@@ -124,17 +124,20 @@ update_status ModulePlayer::Update(float dt)
 
 	if(App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
 	{
-		if (car_state == NORMAL) {
-			acceleration = MAX_ACCELERATION;
-		}
 
-		else if (car_state == FAST) {
-			acceleration = MAX_ACCELERATION * 1.2;
+		acceleration = MAX_ACCELERATION;
+
+		if (car_state == FAST) {
+			acceleration = acceleration * 1.2;
 			car_state = NORMAL;
 		}
 
 		else if (car_state == SLOW) {
-			acceleration = MAX_ACCELERATION * 0.5;
+			acceleration = 0.00000001;
+			/*if(acceleration > 400)
+				brake = 20;
+			//brake = 20;*/
+			car_state = NORMAL;
 		}
 
 	}
@@ -153,7 +156,7 @@ update_status ModulePlayer::Update(float dt)
 
 	if(App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
 	{
-		brake = BRAKE_POWER;
+		acceleration = -1000.0;
 	}
 
 	//camera following the car

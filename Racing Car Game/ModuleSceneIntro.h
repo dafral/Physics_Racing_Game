@@ -34,14 +34,9 @@ public:
 	Cube platform;
 	Sphere motor;
 
-	Cube floor;
-
-	Cube turbo;
-	
-	Cube falling;
-	
-	Cube slow;
+	Cube sensor;
 
 	Cube s;
-	PhysBody3D* sensor;
+
+	PhysBody3D* body_sensor;
 };
