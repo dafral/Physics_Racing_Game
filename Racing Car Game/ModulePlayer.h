@@ -13,6 +13,9 @@ enum state { NORMAL, FAST, SLOW };
 
 class ModulePlayer : public Module
 {
+private:
+	VehicleInfo car;
+
 public:
 	ModulePlayer(Application* app, bool start_enabled = true);
 	virtual ~ModulePlayer();

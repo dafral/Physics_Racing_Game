@@ -28,6 +28,7 @@ public:
 	p2DynArray<PhysBody3D*> slow_road;
 
 	p2DynArray<Cube> road_cubes;
+	p2DynArray<Cube> checkpoints;
 	// Normal cubes
 
 	Cube sens;

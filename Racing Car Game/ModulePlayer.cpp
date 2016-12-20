@@ -24,9 +24,11 @@ bool ModulePlayer::Start()
 	LOG("Loading player");
 
 	VehicleInfo car;
-	//last_pos = { 0, 12, -22 };
+	last_pos = { 0, 12, -22 };
 	//last_pos = { -250, 0, 182 };
-	last_pos = {-349, 0, 355};
+	//last_pos = {-349, 0, 355};
+	//last_pos = { -300, -18, -100 };
+	//last_pos = 	{-50, 0, -100 };
 	StartCar(last_pos);
 	return true;
 }
@@ -115,7 +117,6 @@ update_status ModulePlayer::Update(float dt)
 }
 
 void ModulePlayer::StartCar(vec3 pos) {
-	VehicleInfo car;
 
 	// Car properties ----------------------------------------
 	car.chassis_size.Set(2, 1, 4);
