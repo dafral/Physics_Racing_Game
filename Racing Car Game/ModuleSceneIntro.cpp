@@ -37,186 +37,101 @@ bool ModuleSceneIntro::Start()
 		road_cubes.PushBack(map_cube);
 	}
 
-<<<<<<< HEAD
 	//position, color and size of the blocks (MAP CREATION)
 	//Green for turbo, Black for slow, Red for falling and no color specification to normal cubes
-	road_cubes[0].size = vec3(10, 1, 20);
-	road_cubes[0].SetPos(0, 0, 5);
-=======
-	//normal blocks
-	floor.size = vec3(10, 1, 20);
-	floor.SetPos(0, 0, 5);
-	
-	road_cubes.PushBack(floor);
+	//si necesitas acordarte de algun cubo especifico pon un comentario
 
-	block1.SetPos(0, 0, 0);
-	block1.size = { 20, 10, 50 };
-	App->physics->AddBody(block1, 0);
-	circuit.PushBack(&block1);
-
-	block2.SetPos(-10, 0, 17.5f);
-	block2.size = { 20,10,15 };
-	block2.SetRotation(45.0f, { 0,1,0 });
-	App->physics->AddBody(block2, 0);
-	circuit.PushBack(&block2);
-
-	block3.SetPos(-25, 0, 15);
-	block3.size = { 20,10,15 };
-	block3.SetRotation(30.0f, { 0,1,0 });
-	App->physics->AddBody(block3, 0);
-	circuit.PushBack(&block3);
-
-	ramp.SetPos(-28, 0, 10);
-	ramp.size = { 20,10,15 };
-	ramp.SetRotation(25.0f, { 1,1,0 });
-	App->physics->AddBody(ramp, 0);
-	circuit.PushBack(&ramp);
-
-	ramp2.SetPos(-28, 0, -20);
-	ramp2.size = { 20,10,15 };
-	ramp2.SetRotation(-25.0f, { 1,0,0 });
-	App->physics->AddBody(ramp2, 0);
-	circuit.PushBack(&ramp2);
-
-	block4.SetPos(-28, 0, -27);
-	block4.size = { 20,6, 20 };
-	App->physics->AddBody(block4, 0);
-	circuit.PushBack(&block4);
-
-	block5.SetPos(-35, 0, -40);
-	block5.size = { 17,6, 20 };
-	block5.SetRotation(25.0f, { 0,1,0 });
-	App->physics->AddBody(block5, 0);
-	circuit.PushBack(&block5);
-
-	block6.SetPos(-45, 0, -35);
-	block6.size = { 17,6, 20 };
-	block6.SetRotation(20.0f, { 0,1,0 });
-	App->physics->AddBody(block6, 0);
-	circuit.PushBack(&block6);
-
-	block7.SetPos(-45, 0, -25);
-	block7.size = { 17,6, 20 };
-	App->physics->AddBody(block7, 0);
-	circuit.PushBack(&block7);
-
-
-	block8.SetPos(-45, 0, -10);
-	block8.size = { 17,6, 20 };
-	block8.SetRotation(20.0f, { 0,1,0 });
-	App->physics->AddBody(block8, 0);
-	circuit.PushBack(&block8);
-
-	block9.SetPos(-35, 0, -10);
-	block9.size = { 17,4, 20 };
-	block9.SetRotation(20.0f, { 0,1,0 });
-	App->physics->AddBody(block9, 0);
-	circuit.PushBack(&block9);
-
-	sens.size = vec3(17, 1, 17);
-	sens.SetPos(-28, 5, -10);
-	ramp_sensor = App->physics->AddBody(sens, 0.0f);
-	ramp_sensor->SetAsSensor(true);
-	ramp_sensor->collision_listeners.add(this);
-
-	block10.SetPos(-25, 0, -10);
-	block10.size = { 17,4, 20 };
-	block10.SetRotation(-10.0f, { 0,1,0 });
-	App->physics->AddBody(block10, 0);
-	circuit.PushBack(&block10);
-
-	block11.SetPos(-20, 0, -10);
-	block11.size = { 17,4, 20 };
-	block11.SetRotation(-30.0f, { 0,1,0 });
-	App->physics->AddBody(block11, 0);
-	circuit.PushBack(&block11);
-
-	block12.SetPos(-20, 0, -20);
-	block12.size = { 20,4, 20 };
-	block12.SetRotation(-10.0f, { 0,1,0 });
-	App->physics->AddBody(block12, 0);
-	circuit.PushBack(&block12);
-
-	block13.SetPos(-20, 0, -30);
-	block13.size = { 20,4, 20 };
-	App->physics->AddBody(block13, 0);
-	circuit.PushBack(&block13);
-
-
-
-	//turbo block
-	/*turbo.size = vec3(10, 1, 20);
-	turbo.SetPos(0, 0, 25);
-	turbo.color = Green;
->>>>>>> origin/master
+	/*-----EJEMPLO DE COMO CREAR UN CUBO ESPECIAL CON SENSOR------
 
 	road_cubes[1].size = vec3(10, 1, 20);
 	road_cubes[1].SetPos(0, 0, 25);
-	road_cubes[1].color = Green;
+	road_cubes[1].color = Green; ----------> (Green es turbo);
+	
+	-------AQUI CREAMOS EL SENSOR--------
 
-	sensor.size = vec3(10, 10, 20);
+	sensor.size = vec3(10, 10, 20); -----------------> usa siempre sensor y body sensor, no crees mas variables
 	sensor.SetPos(0, 0, 25);
-	
-	body_sensor = App->physics->AddBody(sensor, 0);
-	body_sensor->SetAsSensor(true);
-	body_sensor->collision_listeners.add(this);
-	turbo_road.PushBack(body_sensor);
-
-	//slow block
-	road_cubes[2].size = vec3(10, 1, 20);
-	road_cubes[2].SetPos(0, 0, 45);
-	road_cubes[2].color = Black;
-
-	sensor.SetPos(0, 0, 45);
 
 	body_sensor = App->physics->AddBody(sensor, 0);
 	body_sensor->SetAsSensor(true);
 	body_sensor->collision_listeners.add(this);
-	slow_road.PushBack(body_sensor);
-
-	//falling block
-<<<<<<< HEAD
-	road_cubes[3].size = vec3(10, 1, 20);
-	road_cubes[3].SetPos(0, 0, 65);
-	road_cubes[3].color = Red;
-=======
-	falling.size = vec3(10, 1, 20);
-	falling.SetPos(0, 0, 65);
-	falling.color = Red;
+	turbo_road.PushBack(body_sensor); ------------------> lo metes en la array de esos cubos (este es verde asi que va en turbo)
 	
-	road_cubes.PushBack(falling);*/
->>>>>>> origin/master
+	*/
 
-	/*for (uint i = 0; i < road_cubes.Count(); i++) {
+
+	road_cubes[0].SetPos(0, 0, 5);
+	road_cubes[0].size = vec3(10, 1, 20);
+	
+	road_cubes[1].SetPos(0, 0, 0);
+	road_cubes[1].size = { 20, 10, 50 };
+
+	road_cubes[2].SetPos(-10, 0, 17.5f);
+	road_cubes[2].size = { 20,10,15 };
+	road_cubes[2].SetRotation(45.0f, { 0,1,0 });
+
+	road_cubes[3].SetPos(-25, 0, 15);
+	road_cubes[3].size = { 20,10,15 };
+	road_cubes[3].SetRotation(30.0f, { 0,1,0 });
+	
+	road_cubes[4].SetPos(-28, 0, 10);
+	road_cubes[4].size = { 20,10,15 };
+	road_cubes[4].SetRotation(25.0f, { 1,1,0 });
+
+	road_cubes[5].SetPos(-28, 0, -20);
+	road_cubes[5].size = { 20,10,15 };
+	road_cubes[5].SetRotation(-25.0f, { 1,0,0 });
+
+	road_cubes[6].SetPos(-28, 0, -27);
+	road_cubes[6].size = { 20,6, 20 };
+
+	road_cubes[7].SetPos(-35, 0, -40);
+	road_cubes[7].size = { 17,6, 20 };
+	road_cubes[7].SetRotation(25.0f, { 0,1,0 });
+
+	road_cubes[8].SetPos(-45, 0, -35);
+	road_cubes[8].size = { 17,6, 20 };
+	road_cubes[8].SetRotation(20.0f, { 0,1,0 });
+
+	road_cubes[9].SetPos(-45, 0, -25);
+	road_cubes[9].size = { 17,6, 20 };
+
+	road_cubes[10].SetPos(-45, 0, -10);
+	road_cubes[10].size = { 17,6, 20 };
+	road_cubes[10].SetRotation(20.0f, { 0,1,0 });
+
+	road_cubes[11].SetPos(-35, 0, -10);
+	road_cubes[11].size = { 17,4, 20 };
+	road_cubes[11].SetRotation(20.0f, { 0,1,0 });
+
+	road_cubes[12].SetPos(-25, 0, -10);
+	road_cubes[12].size = { 17,4, 20 };
+	road_cubes[12].SetRotation(-10.0f, { 0,1,0 });
+
+	road_cubes[13].SetPos(-20, 0, -10);
+	road_cubes[13].size = { 17,4, 20 };
+	road_cubes[13].SetRotation(-30.0f, { 0,1,0 });
+	
+	road_cubes[14].SetPos(-20, 0, -20);
+	road_cubes[14].size = { 20,4, 20 };
+	road_cubes[14].SetRotation(-10.0f, { 0,1,0 });
+	
+	road_cubes[15].SetPos(-20, 0, -30);
+	road_cubes[15].size = { 20,4, 20 };
+
+	
+	for (uint i = 0; i < road_cubes.Count(); i++) {
 		PhysBody3D* body;
 		body = App->physics->AddBody(road_cubes[i], 0);
-<<<<<<< HEAD
 		road.PushBack(body);
 	}
-=======
-		road.PushBack(body);*/
-		/*if (road_cubes[i].size.y == 3) {
-			turbo_road.PushBack(body);
-			turbo_road[turbo_road.Count() - 1]->SetAsSensor(true);
-			//turbo_road[turbo_road.Count() - 1]->collision_listeners.add(this);
-		}
-	}*/
->>>>>>> origin/master
 
-	/*s.size = vec3(5, 3, 1);
-	s.SetPos(100, 2.5f, 20);
+	/*sens.size = vec3(17, 1, 17);
+	sens.SetPos(-28, 5, -10);
+	ramp_sensor = App->physics->AddBody(sens, 0.0f);
+	ramp_sensor->SetAsSensor(true);
+	ramp_sensor->collision_listeners.add(this);*/
 
-<<<<<<< HEAD
-	body_sensor = App->physics->AddBody(s, 0.0f);
-	body_sensor->SetAsSensor(true);
-	body_sensor->collision_listeners.add(this);
-
-=======
-	sensor = App->physics->AddBody(s, 0.0f);
-	sensor->SetAsSensor(true);
-	sensor->collision_listeners.add(this);
-	*/
->>>>>>> origin/master
 	return ret;
 
 }
@@ -232,21 +147,13 @@ bool ModuleSceneIntro::CleanUp()
 // Update
 update_status ModuleSceneIntro::Update(float dt)
 {
-	Plane p(0, 1, 0, 0);
+	/*Plane p(0, 1, 0, 0);
 	p.axis = true;
 	p.Render();
 
-<<<<<<< HEAD
 	body_sensor->GetTransform(&s.transform);
-	s.Render();
-=======
-	/*sensor->GetTransform(&s.transform);
 	s.Render();*/
->>>>>>> origin/master
 
-	for (uint i = 0; i < circuit.Count(); i++) {
-		circuit[i]->Render();
-	}
 	for (uint i = 0; i < road_cubes.Count(); i++)
 		road_cubes[i].Render();
 
