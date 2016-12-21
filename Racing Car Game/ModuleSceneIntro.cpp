@@ -221,8 +221,68 @@ bool ModuleSceneIntro::Start()
 	body_sensor->collision_listeners.add(this);
 	turbo_road.PushBack(body_sensor);
 
+	road_cubes[40].SetPos(-252.5, -11, 160);
+	road_cubes[40].size = vec3(12, 1,20);
+
+	road_cubes[41].SetPos(-240.5, -9, 160);
+	road_cubes[41].size = vec3(12, 1, 10);
+	road_cubes[41].SetRotation(20.0f, vec3(0, 0, 1));
+
+	road_cubes[42].SetPos(-229.25, -7, 160);
+	road_cubes[42].size = vec3(12, 1, 10);
+
+	road_cubes[43].SetPos(-217.25, -7, 160);
+	road_cubes[43].size = vec3(12, 1, 10);
+	
+	road_cubes[43].SetPos(-217.25, -7, 160);
+	road_cubes[43].size = vec3(12, 1, 10);
+
+	road_cubes[44].SetPos(-217.25, -7, 150);
+	road_cubes[44].size = vec3(12, 1, 10);
+
+	road_cubes[45].SetPos(-217.25, -7, 140);
+	road_cubes[45].size = vec3(12, 1, 10);
+
+	road_cubes[46].SetPos(-205.25, -7, 140);
+	road_cubes[46].size = vec3(12, 1, 10);
+
+	road_cubes[47].SetPos(-205.25, -7, 130);
+	road_cubes[47].size = vec3(12, 1, 10);
+
+	road_cubes[48].SetPos(-205.25, -7, 120);
+	road_cubes[48].size = vec3(12, 1, 10);
+
+	road_cubes[49].SetPos(-193.25, -7, 120);
+	road_cubes[49].size = vec3(12, 1, 10);
+
+	road_cubes[50].SetPos(-181.25, -7, 120);
+	road_cubes[50].size = vec3(12, 1, 10);
+
+	road_cubes[51].SetPos(-169.25, -7, 120);
+	road_cubes[51].size = vec3(12, 1, 10);
+
+	road_cubes[52].SetPos(-157.25, -7, 120);
+	road_cubes[52].size = vec3(12, 1, 10);
+
+	road_cubes[53].SetPos(-157.25, -7, 110);
+	road_cubes[53].size = vec3(12, 1, 10);
+
+	road_cubes[54].SetPos(-157.25, -5.5, 101);
+	road_cubes[54].size = vec3(12, 1, 10);
+	road_cubes[54].SetRotation(20.0f, vec3(1, 0, 0));
+
+	road_cubes[55].SetPos(-157.25, -3.5, 91);
+	road_cubes[55].size = vec3(12, 1, 10);
+
+	road_cubes[56].SetPos(-157.25, -3.5, 81);
+	road_cubes[56].size = vec3(12, 1, 10);
+
+	road_cubes[57].SetPos(-157.25, -3.5, 71);
+	road_cubes[57].size = vec3(12, 1, 10);
+
 
 	//ROTATING PLATFORM
+
 	motor.radius = 1.0;
 	motor.SetPos(-300, -15, 20);
 	//motor.SetRotation(90.0, vec3(-1,0,0));
