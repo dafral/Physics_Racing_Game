@@ -29,11 +29,10 @@ public:
 	float turn;
 	float acceleration;
 	float brake;
-
 	//Fx
-	uint speed_fx;
+	
 	uint start_fx;
-	uint idle_fx;
+	
 	bool reproduced;
 	float idle_trans[16];
 	vec3 check_position;
