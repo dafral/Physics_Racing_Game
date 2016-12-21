@@ -34,14 +34,9 @@ public:
 	p2DynArray<Cube> cp_cubes;
 	p2DynArray<PhysBody3D*> checkpoints;
 
-<<<<<<< HEAD
-=======
-	Cube sens;
-	PhysBody3D* ramp_sensor;
 	//Music
 	uint music;
-	//special cubes
->>>>>>> origin/master
+
 	Cube platform;
 	Sphere motor;
 

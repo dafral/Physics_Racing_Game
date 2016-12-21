@@ -298,8 +298,8 @@ bool ModuleSceneIntro::Start()
 	road_cubes[63].SetPos(-192.25, -7.5, 71);
 	road_cubes[63].size = vec3(12, 1, 10);
 	road_cubes[63].color = Black;
-	sensor.size = vec3(12, 20, 5);
-	sensor.SetPos(-192.25, -7.5, 715);
+	sensor.size = vec3(12, 20, 10);
+	sensor.SetPos(-192.25, -7.5, 71);
 	body_sensor = App->physics->AddBody(sensor, 0);
 	body_sensor->SetAsSensor(true);
 	body_sensor->collision_listeners.add(this);
@@ -308,7 +308,7 @@ bool ModuleSceneIntro::Start()
 	road_cubes[64].SetPos(-192.25, -7.5, 61);
 	road_cubes[64].size = vec3(12, 1, 10);
 	road_cubes[64].color = Green;
-	sensor.size = vec3(12, 20, 5);
+	sensor.size = vec3(12, 20, 10);
 	sensor.SetPos(-192.25, -7.5, 61);
 	body_sensor = App->physics->AddBody(sensor, 0);
 	body_sensor->SetAsSensor(true);
@@ -384,7 +384,7 @@ bool ModuleSceneIntro::Start()
 	cp_coords.PushBack(vec3( 0, 2, -22 ));
 	cp_coords.PushBack(vec3( -250, 2, 182 ));
 	cp_coords.PushBack(vec3(-349, 2, 355));
-	cp_coords.PushBack(vec3(-156.25, -3.5, 70));//cambiar
+	cp_coords.PushBack(vec3(-156.25, -3.5, 70));
 	cp_coords.PushBack(vec3( -300, -18, -100 ));
 
 	for (uint i = 0; i < 5; i++) {
