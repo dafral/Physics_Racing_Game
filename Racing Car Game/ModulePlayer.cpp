@@ -24,9 +24,15 @@ bool ModulePlayer::Start()
 	LOG("Loading player");
 
 	VehicleInfo car;
+
 	start_fx = App->audio->LoadFx("Fx/Car_start.wav");
 	speed_fx = App->audio->LoadFx("Fx/Car_speed.wav");
+
 	check_position = App->scene_intro->cp_coords[2];
+
+	
+	check_position = App->scene_intro->cp_coords[0];
+
 	StartCar(check_position);
 
 	vehicle->GetTransform(idle_trans);
@@ -92,7 +98,11 @@ update_status ModulePlayer::Update(float dt)
 	{
 		vehicle->SetPos(check_position.x, check_position.y, check_position.z);
 		vehicle->SetTransform(idle_trans);
+
 		App->audio->PlayFx(start_fx); 
+
+		brake = BRAKE_POWER;
+
 	}
 
 
