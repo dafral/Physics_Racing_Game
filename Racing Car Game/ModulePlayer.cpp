@@ -57,16 +57,17 @@ update_status ModulePlayer::Update(float dt)
 	}
 	if(App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
 	{
-	
+		km = vehicle->GetKmh();
+		if (km < 100) {
 			acceleration = MAX_ACCELERATION;
-
+		}
 		if (car_state == FAST) {
 			acceleration = 1000;
 			car_state = NORMAL;
 		}
 
 		else if (car_state == SLOW) {
-			acceleration = 0.00000001;
+			acceleration = -100;
 			car_state = NORMAL;
 		}
 	}

@@ -136,7 +136,7 @@ bool ModuleSceneIntro::Start()
 	body_sensor = App->physics->AddBody(sensor, 0);
 	body_sensor->SetAsSensor(true);
 	body_sensor->collision_listeners.add(this);
-	turbo_road.PushBack(body_sensor);
+	slow_road.PushBack(body_sensor);
 
 	road_cubes[25].SetPos(-297, -11, 275);
 	road_cubes[25].size = vec3(7, 1, 20);
@@ -149,7 +149,7 @@ bool ModuleSceneIntro::Start()
 	body_sensor = App->physics->AddBody(sensor, 0);
 	body_sensor->SetAsSensor(true);
 	body_sensor->collision_listeners.add(this);
-	turbo_road.PushBack(body_sensor);
+	slow_road.PushBack(body_sensor);
 
 	road_cubes[27].SetPos(-304, -11, 245);
 	road_cubes[27].size = vec3(7, 1, 20);
@@ -202,7 +202,7 @@ bool ModuleSceneIntro::Start()
 	body_sensor = App->physics->AddBody(sensor, 0);
 	body_sensor->SetAsSensor(true);
 	body_sensor->collision_listeners.add(this);
-	turbo_road.PushBack(body_sensor);
+	slow_road.PushBack(body_sensor);
 
 	road_cubes[40].SetPos(-252.5, -11, 160);
 	road_cubes[40].size = vec3(12, 1,20);
@@ -288,7 +288,7 @@ bool ModuleSceneIntro::Start()
 	body_sensor = App->physics->AddBody(sensor, 0);
 	body_sensor->SetAsSensor(true);
 	body_sensor->collision_listeners.add(this);
-	turbo_road.PushBack(body_sensor);
+	slow_road.PushBack(body_sensor);
 
 	road_cubes[64].SetPos(-192.25, -7.5, 61);
 	road_cubes[64].size = vec3(12, 1, 10);
@@ -460,7 +460,7 @@ update_status ModuleSceneIntro::Update(float dt)
 	float_plat1.Render();
 	float_plat2.Render();
 
-	App->audio->PlayFx(check_point_fx, 5);
+	
 
 	
 	return UPDATE_CONTINUE;
