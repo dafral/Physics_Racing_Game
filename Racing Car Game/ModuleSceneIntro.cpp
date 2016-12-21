@@ -35,29 +35,9 @@ bool ModuleSceneIntro::Start()
 	//ACORDARSE DE CAMBIAR ESTO!!!!!!!!!! 
 	for (uint i = 0; i < 100; i++) {
 		Cube map_cube;
+		map_cube.color = Grey;
 		road_cubes.PushBack(map_cube);
 	}
-	//position, color and size of the blocks (MAP CREATION)
-	//Green for turbo, Black for slow, Red for falling and no color specification to normal cubes
-	//si necesitas acordarte de algun cubo especifico pon un comentario
-
-	/*-----EJEMPLO DE COMO CREAR UN CUBO ESPECIAL CON SENSOR------
-
-	road_cubes[1].size = vec3(10, 1, 20);
-	road_cubes[1].SetPos(0, 0, 25);
-	road_cubes[1].color = Green; ----------> (Green es turbo);
-	
-	-------AQUI CREAMOS EL SENSOR--------
-
-	sensor.size = vec3(10, 10, 20); -----------------> usa siempre sensor y body_sensor, no crees mas variables
-	sensor.SetPos(0, 0, 25);
-
-	body_sensor = App->physics->AddBody(sensor, 0);
-	body_sensor->SetAsSensor(true);
-	body_sensor->collision_listeners.add(this);
-	turbo_road.PushBack(body_sensor); ------------------> lo metes en la array de esos cubos (este es verde asi que va en turbo)
-	
-	*/
 
 	road_cubes[0].SetPos(0, 0, 5);
 	road_cubes[0].size = vec3(15, 1, 80);
@@ -150,7 +130,7 @@ bool ModuleSceneIntro::Start()
 
 	road_cubes[24].SetPos(-304, -11, 275);
 	road_cubes[24].size = vec3(7, 1, 20);
-	road_cubes[24].color  = Blue;
+	road_cubes[24].color  = Yellow;
 	sensor.size = vec3(7, 20, 20);
 	sensor.SetPos(-304, -11, 275);
 	body_sensor = App->physics->AddBody(sensor, 0);
@@ -163,11 +143,7 @@ bool ModuleSceneIntro::Start()
 
 	road_cubes[26].SetPos(-297, -11, 245);
 	road_cubes[26].size = vec3(7, 1, 20);
-
-	road_cubes[26].color = Blue;
-
 	road_cubes[26].color = Yellow;
-
 	sensor.size = vec3(7, 20, 20);
 	sensor.SetPos(-297, -11, 245);
 	body_sensor = App->physics->AddBody(sensor, 0);
@@ -220,11 +196,7 @@ bool ModuleSceneIntro::Start()
 
 	road_cubes[39].SetPos(-264.5, -11, 165);
 	road_cubes[39].size = vec3(12, 1, 5);
-
-	road_cubes[39].color = Blue;
-
 	road_cubes[39].color = Yellow;
-
 	sensor.size = vec3(12, 20, 5);
 	sensor.SetPos(-264.5, -11, 165);
 	body_sensor = App->physics->AddBody(sensor, 0);
@@ -310,11 +282,7 @@ bool ModuleSceneIntro::Start()
 
 	road_cubes[63].SetPos(-192.25, -7.5, 71);
 	road_cubes[63].size = vec3(12, 1, 10);
-
-	road_cubes[63].color = Blue;
-
 	road_cubes[63].color = Yellow;
-
 	sensor.size = vec3(12, 20, 10);
 	sensor.SetPos(-192.25, -7.5, 71);
 	body_sensor = App->physics->AddBody(sensor, 0);
@@ -340,15 +308,15 @@ bool ModuleSceneIntro::Start()
 	float_plat1.SetPos(-240, -15, 40);
 
 	PhysBody3D* bodyA = App->physics->AddBody(motor, 0);
-	PhysBody3D* bodyB = App->physics->AddBody(float_plat1, 350);
-	App->physics->AddConstraintP2P(*bodyA, *bodyB, vec3(0, 0, 0), vec3(0, 20, 0));
+	float_body1 = App->physics->AddBody(float_plat1, 350);
+	App->physics->AddConstraintP2P(*bodyA, *float_body1, vec3(0, 0, 0), vec3(0, 20, 0));
 
 	motor.SetPos(-300, 5, -30);
 	float_plat2.SetPos(-300, -10, -10);
 	float_plat2.size = vec3(80, 1, 80);
 	bodyA = App->physics->AddBody(motor, 0);
-	bodyB = App->physics->AddBody(float_plat2, 500);
-	App->physics->AddConstraintP2P(*bodyA, *bodyB, vec3(0, 0, 0), vec3(0, 20, 0));
+	float_body2 = App->physics->AddBody(float_plat2, 500);
+	App->physics->AddConstraintP2P(*bodyA, *float_body2, vec3(0, 0, 0), vec3(0, 20, 0));
 
 	//After rotating platform
 	road_cubes[18].SetPos(-300, -18, -100);
@@ -486,9 +454,13 @@ update_status ModuleSceneIntro::Update(float dt)
 		App->audio->PlayFx(congratulations_fx);
 	}
 
-	//esto esta mal
+	//floating platforms renderer
+	float_body1->GetTransform(float_plat1.transform.M);
+	float_body2->GetTransform(float_plat2.transform.M);
 	float_plat1.Render();
 	float_plat2.Render();
+
+	App->audio->PlayFx(check_point_fx, 5);
 
 	
 	return UPDATE_CONTINUE;
@@ -496,8 +468,6 @@ update_status ModuleSceneIntro::Update(float dt)
 
 void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 {
-
-
 
 	if (body2 == App->player->vehicle) {
 
@@ -517,6 +487,7 @@ void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 					//these ifs avoid skipping checkpoints
 					if (i == 0 && (CHECK0 || CHECK4)) {
 						App->player->check_position = cp_coords[i];
+						App->audio->PlayFx(check_point_fx);
 						//sets correct transform
 						for (uint j = 0; j < 16; j++)
 							App->player->idle_trans[j] = cp_transforms[i][j];
@@ -526,27 +497,13 @@ void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 					}
 					else if (i != 0 && App->player->check_position.x == cp_coords[i - 1].x && App->player->check_position.y == cp_coords[i - 1].y && App->player->check_position.z == cp_coords[i - 1].z) {
 						App->player->check_position = cp_coords[i];
+						App->audio->PlayFx(check_point_fx);
 						//sets correct transform
 						for (uint j = 0; j < 16; j++)
 							App->player->idle_trans[j] = cp_transforms[i][j];
 					}
 				}
 
-				/*for (int i = 0; i < checkpoints.Count(); i++) {
-					if (checkpoints[i] == body1) {
-						//these ifs avoid skipping checkpoints
-						if (i == 0 && (CHECK0 || CHECK4)) {
-							App->player->check_position = cp_coords[i];
-							App->player->vehicle->GetTransform(App->player->idle_trans);
-							if (CHECK4)
-								laps++;
-						}
-						else if (App->player->check_position.x == cp_coords[i - 1].x && App->player->check_position.y == cp_coords[i - 1].y && App->player->check_position.z == cp_coords[i - 1].z) {
-							App->player->check_position = cp_coords[i];
-							App->player->vehicle->GetTransform(App->player->idle_trans);
-						}
-					}
-				}*/
 
 				if (death_blocks[1] == body1) {
 					App->player->vehicle->SetPos(App->player->check_position.x, App->player->check_position.y, App->player->check_position.z);
