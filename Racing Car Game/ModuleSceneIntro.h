@@ -36,6 +36,8 @@ public:
 
 	Cube sens;
 	PhysBody3D* ramp_sensor;
+	//Music
+	uint music;
 	//special cubes
 	Cube platform;
 	Sphere motor;
