@@ -26,14 +26,12 @@ bool ModuleSceneIntro::Start()
 
 	race_time.Start();
 
-	music = App->audio->LoadFx("Game/Fx/Music.ogg");
-	congratulations_fx = App->audio->LoadFx("Game/Fx/Congratulations.wav");
-	check_point_fx = App->audio->LoadFx("Game/Fx/Check_point.wav");
-	music = App->audio->LoadFx("Game/Fx/Music.ogg");
+	music = App->audio->LoadFx("Fx/Music.ogg");
+	congratulations_fx = App->audio->LoadFx("Fx/Congratulations.wav");
+	check_point_fx = App->audio->LoadFx("Fx/Check_point.wav");
 
 	//We create here how many cubes we need to make the map
-	//ACORDARSE DE CAMBIAR ESTO!!!!!!!!!! 
-	for (uint i = 0; i < 100; i++) {
+	for (uint i = 0; i < 65; i++) {
 		Cube map_cube;
 		map_cube.color = Grey;
 		road_cubes.PushBack(map_cube);
@@ -493,7 +491,6 @@ void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 					if (i == 0 && (CHECK4)) {
 						//adds a lap if circuit completed
 						laps++;
-
 						App->player->check_position = cp_coords[i];
 						App->audio->PlayFx(check_point_fx);
 						//sets correct transform
@@ -508,7 +505,6 @@ void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 							App->player->idle_trans[j] = cp_transforms[i][j];
 					}
 				}
-
 
 				if (death_blocks[1] == body1) {
 					App->player->vehicle->SetPos(App->player->check_position.x, App->player->check_position.y, App->player->check_position.z);
