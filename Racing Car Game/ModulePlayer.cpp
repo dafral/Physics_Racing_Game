@@ -25,7 +25,7 @@ bool ModulePlayer::Start()
 
 	VehicleInfo car;
 	
-	check_position = App->scene_intro->cp_coords[2];
+	check_position = App->scene_intro->cp_coords[0];
 	StartCar(check_position);
 
 	vehicle->GetTransform(idle_trans);
@@ -91,6 +91,7 @@ update_status ModulePlayer::Update(float dt)
 	{
 		vehicle->SetPos(check_position.x, check_position.y, check_position.z);
 		vehicle->SetTransform(idle_trans);
+		brake = BRAKE_POWER;
 	}
 
 
