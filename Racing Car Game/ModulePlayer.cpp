@@ -58,6 +58,9 @@ update_status ModulePlayer::Update(float dt)
 {
 	turn = acceleration = brake = 0.0f;
  
+	if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_DOWN) {
+	
+	}
 	if(App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
 	{
 		km = vehicle->GetKmh();
@@ -90,6 +93,7 @@ update_status ModulePlayer::Update(float dt)
 
 	if(App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
 	{
+		
 		acceleration = -MAX_ACCELERATION;
 	}
 
@@ -137,9 +141,9 @@ void ModulePlayer::StartCar(vec3 pos) {
 	car.suspensionStiffness = 13.88f;
 	car.suspensionCompression = 0.83f;
 	car.suspensionDamping = 0.50f;
-	car.maxSuspensionTravelCm = 1000.0f;
+	car.maxSuspensionTravelCm = 900.0f;
 	car.frictionSlip = 50.5;
-	car.maxSuspensionForce = 5000.0f;
+	car.maxSuspensionForce = 4000.0f;
 
 	// Wheel properties ---------------------------------------
 	float connection_height = 1.2f;

@@ -25,11 +25,10 @@ bool ModuleSceneIntro::Start()
 	bool ret = true;
 	race_time.Start();
 	music = App->audio->LoadFx("Game/Fx/Music.ogg");
-	scream = App->audio->LoadFx("Game/Fx/Scream.wav");
 	congratulations_fx = App->audio->LoadFx("Game/Fx/Congratulations.wav");
-	check_point_fx = App->audio->LoadFx("Game/Fx/Check_point");
+	check_point_fx = App->audio->LoadFx("Game/Fx/Check_point.wav");
 
-	music = App->audio->LoadFx("Fx/Music.ogg");
+	music = App->audio->LoadFx("Game/Fx/Music.ogg");
 
 
 	//We create here how many cubes we need to make the map
@@ -468,7 +467,7 @@ bool ModuleSceneIntro::CleanUp()
 // Update
 update_status ModuleSceneIntro::Update(float dt)
 {
-
+	
 	for (uint i = 0; i < road_cubes.Count(); i++)
 		road_cubes[i].Render();
 
