@@ -23,13 +23,13 @@ bool ModuleSceneIntro::Start()
 {
 	LOG("Loading Intro assets");
 	bool ret = true;
+
 	race_time.Start();
+
 	music = App->audio->LoadFx("Game/Fx/Music.ogg");
 	congratulations_fx = App->audio->LoadFx("Game/Fx/Congratulations.wav");
 	check_point_fx = App->audio->LoadFx("Game/Fx/Check_point.wav");
-
 	music = App->audio->LoadFx("Game/Fx/Music.ogg");
-
 
 	//We create here how many cubes we need to make the map
 	//ACORDARSE DE CAMBIAR ESTO!!!!!!!!!! 
@@ -306,7 +306,7 @@ bool ModuleSceneIntro::Start()
 
 	float_plat1.size = vec3(80, 1, 80);
 	float_plat1.SetPos(-240, -15, 40);
-
+	float_plat1.color = Pink;
 	PhysBody3D* bodyA = App->physics->AddBody(motor, 0);
 	float_body1 = App->physics->AddBody(float_plat1, 350);
 	App->physics->AddConstraintP2P(*bodyA, *float_body1, vec3(0, 0, 0), vec3(0, 20, 0));
@@ -314,6 +314,7 @@ bool ModuleSceneIntro::Start()
 	motor.SetPos(-300, 5, -30);
 	float_plat2.SetPos(-300, -10, -10);
 	float_plat2.size = vec3(80, 1, 80);
+	float_plat2.color = Pink;
 	bodyA = App->physics->AddBody(motor, 0);
 	float_body2 = App->physics->AddBody(float_plat2, 500);
 	App->physics->AddConstraintP2P(*bodyA, *float_body2, vec3(0, 0, 0), vec3(0, 20, 0));
@@ -449,9 +450,10 @@ update_status ModuleSceneIntro::Update(float dt)
 		}
 	}
 
-
-	if (laps == 3) {
+	if (laps == 2) {
 		App->audio->PlayFx(congratulations_fx);
+		race_time.Stop();
+		
 	}
 
 	//floating platforms renderer
@@ -460,7 +462,9 @@ update_status ModuleSceneIntro::Update(float dt)
 	float_plat1.Render();
 	float_plat2.Render();
 
+
 	
+
 
 	
 	return UPDATE_CONTINUE;
@@ -485,15 +489,15 @@ void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 			for (int i = 0; i < checkpoints.Count(); i++) {
 				if (checkpoints[i] == body1) {
 					//these ifs avoid skipping checkpoints
-					if (i == 0 && (CHECK0 || CHECK4)) {
+					if (i == 0 && (CHECK4)) {
+						//adds a lap if circuit completed
+						laps++;
+
 						App->player->check_position = cp_coords[i];
 						App->audio->PlayFx(check_point_fx);
 						//sets correct transform
 						for (uint j = 0; j < 16; j++)
 							App->player->idle_trans[j] = cp_transforms[i][j];
-						//adds a lap if circuit completed
-						if (CHECK4)
-							laps++;
 					}
 					else if (i != 0 && App->player->check_position.x == cp_coords[i - 1].x && App->player->check_position.y == cp_coords[i - 1].y && App->player->check_position.z == cp_coords[i - 1].z) {
 						App->player->check_position = cp_coords[i];
