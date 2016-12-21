@@ -36,6 +36,9 @@ public:
 
 	//Music
 	uint music;
+	uint scream;
+	uint check_point_fx;
+	uint congratulations_fx;
 
 	Cube platform;
 	Sphere motor;

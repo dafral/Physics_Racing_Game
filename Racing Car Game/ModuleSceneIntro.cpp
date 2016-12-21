@@ -24,14 +24,16 @@ bool ModuleSceneIntro::Start()
 	LOG("Loading Intro assets");
 	bool ret = true;
 	race_time.Start();
-	music = App->audio->LoadFx("Fx/Music.ogg");
+	music = App->audio->LoadFx("Game/Fx/Music.ogg");
+	scream = App->audio->LoadFx("Game/Fx/Scream.wav");
+	congratulations_fx = App->audio->LoadFx("Game/Fx/Congratulations.wav");
+	check_point_fx = App->audio->LoadFx("Game/Fx/Check_point");
 	//We create here how many cubes we need to make the map
 	//ACORDARSE DE CAMBIAR ESTO!!!!!!!!!! 
 	for (uint i = 0; i < 100; i++) {
 		Cube map_cube;
 		road_cubes.PushBack(map_cube);
 	}
-
 	//position, color and size of the blocks (MAP CREATION)
 	//Green for turbo, Black for slow, Red for falling and no color specification to normal cubes
 	//si necesitas acordarte de algun cubo especifico pon un comentario
@@ -145,7 +147,7 @@ bool ModuleSceneIntro::Start()
 
 	road_cubes[24].SetPos(-304, -11, 275);
 	road_cubes[24].size = vec3(7, 1, 20);
-	road_cubes[24].color  = Black;
+	road_cubes[24].color  = Blue;
 	sensor.size = vec3(7, 20, 20);
 	sensor.SetPos(-304, -11, 275);
 	body_sensor = App->physics->AddBody(sensor, 0);
@@ -158,7 +160,7 @@ bool ModuleSceneIntro::Start()
 
 	road_cubes[26].SetPos(-297, -11, 245);
 	road_cubes[26].size = vec3(7, 1, 20);
-	road_cubes[26].color = Black;
+	road_cubes[26].color = Blue;
 	sensor.size = vec3(7, 20, 20);
 	sensor.SetPos(-297, -11, 245);
 	body_sensor = App->physics->AddBody(sensor, 0);
@@ -211,7 +213,7 @@ bool ModuleSceneIntro::Start()
 
 	road_cubes[39].SetPos(-264.5, -11, 165);
 	road_cubes[39].size = vec3(12, 1, 5);
-	road_cubes[39].color = Black;
+	road_cubes[39].color = Blue;
 	sensor.size = vec3(12, 20, 5);
 	sensor.SetPos(-264.5, -11, 165);
 	body_sensor = App->physics->AddBody(sensor, 0);
@@ -297,7 +299,7 @@ bool ModuleSceneIntro::Start()
 
 	road_cubes[63].SetPos(-192.25, -7.5, 71);
 	road_cubes[63].size = vec3(12, 1, 10);
-	road_cubes[63].color = Black;
+	road_cubes[63].color = Blue;
 	sensor.size = vec3(12, 20, 10);
 	sensor.SetPos(-192.25, -7.5, 71);
 	body_sensor = App->physics->AddBody(sensor, 0);
@@ -445,12 +447,17 @@ update_status ModuleSceneIntro::Update(float dt)
 				cp_cubes[i + 1].Render();
 		}
 	}
+
+	if (laps == 3) {
+		App->audio->PlayFx(congratulations_fx);
+	}
 	
 	return UPDATE_CONTINUE;
 }
 
 void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 {
+
 		for (int i = 0; i < turbo_road.Count(); i++) {
 			if (turbo_road[i] == body1) {
 				App->player->car_state = FAST;

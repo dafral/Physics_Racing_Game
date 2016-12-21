@@ -15,7 +15,6 @@ class ModulePlayer : public Module
 {
 private:
 	//VehicleInfo car;
-
 public:
 	ModulePlayer(Application* app, bool start_enabled = true);
 	virtual ~ModulePlayer();
@@ -34,8 +33,10 @@ public:
 	//Fx
 	uint speed_fx;
 	uint start_fx;
-
+	uint idle_fx;
+	bool reproduced;
 	float idle_trans[16];
 	vec3 check_position;
 	state car_state = NORMAL;
+	float km;
 };

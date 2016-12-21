@@ -25,10 +25,13 @@ bool ModulePlayer::Start()
 
 	VehicleInfo car;
 
-	start_fx = App->audio->LoadFx("Fx/Car_start.wav");
-	speed_fx = App->audio->LoadFx("Fx/Car_speed.wav");
-
+	start_fx = App->audio->LoadFx("Game/Fx/Car_start.wav");
+	speed_fx = App->audio->LoadFx("Game/Fx/Car_speed.wav");
+	idle_fx = App->audio->LoadFx("Game/FX/Car_idle.wav");
+	reproduced = false;
 	App->audio->PlayFx(start_fx);
+	
+	//App->audio->PlayFx(start_fx);
 	check_position = App->scene_intro->cp_coords[0];
 
 	StartCar(check_position);
@@ -50,12 +53,14 @@ bool ModulePlayer::CleanUp()
 update_status ModulePlayer::Update(float dt)
 {
 	turn = acceleration = brake = 0.0f;
-
+ 
 	if(App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
 	{
-
-		acceleration = MAX_ACCELERATION;
-		//App->audio->PlayFx(speed_fx);
+		km = vehicle->GetKmh();
+		if (km < 120) {
+			acceleration = MAX_ACCELERATION;
+		}
+		
 
 		if (car_state == FAST) {
 			acceleration = acceleration * 1.2;
@@ -67,7 +72,6 @@ update_status ModulePlayer::Update(float dt)
 			car_state = NORMAL;
 		}
 	}
-
 	if(App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
 	{
 		if(turn < TURN_DEGREES)
@@ -100,7 +104,6 @@ update_status ModulePlayer::Update(float dt)
 
 	}
 
-
 	//camera following the car
 	App->camera->Position.x = App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getX() - 10 * App->player->vehicle->vehicle->getForwardVector().getX();
 	App->camera->Position.z = App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getZ() - 10 * App->player->vehicle->vehicle->getForwardVector().getZ();
@@ -118,6 +121,7 @@ update_status ModulePlayer::Update(float dt)
 	sprintf_s(title, "%.1f Km/h // Time: %ds // Laps: %d", vehicle->GetKmh(), App->scene_intro->race_time.Read()/1000, App->scene_intro->laps);
 	App->window->SetTitle(title);
 
+	
 	return UPDATE_CONTINUE;
 }
 
@@ -127,13 +131,13 @@ void ModulePlayer::StartCar(vec3 pos) {
 	// Car properties ----------------------------------------
 	car.chassis_size.Set(2, 1, 4);
 	car.chassis_offset.Set(0, 1.5, 0);
-	car.mass = 250.0f;
-	car.suspensionStiffness = 15.88f;
+	car.mass = 150.0f;
+	car.suspensionStiffness = 13.88f;
 	car.suspensionCompression = 0.83f;
-	car.suspensionDamping = 0.88f;
+	car.suspensionDamping = 0.50f;
 	car.maxSuspensionTravelCm = 1000.0f;
 	car.frictionSlip = 50.5;
-	car.maxSuspensionForce = 6000.0f;
+	car.maxSuspensionForce = 5000.0f;
 
 	// Wheel properties ---------------------------------------
 	float connection_height = 1.2f;
