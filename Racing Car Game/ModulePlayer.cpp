@@ -7,7 +7,7 @@
 
 //this defines are for the lookat()
 #define CAMERA_X App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getX() + 10 * App->player->vehicle->vehicle->getForwardVector().getX()
-#define CAMERA_Y App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getY() - 3 //* App->player->vehicle->vehicle->getForwardVector().getY()
+#define CAMERA_Y App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getY() - 3 
 #define CAMERA_Z App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getZ() + 10 * App->player->vehicle->vehicle->getForwardVector().getZ()
 
 ModulePlayer::ModulePlayer(Application* app, bool start_enabled) : Module(app, start_enabled), vehicle(NULL)
@@ -30,9 +30,13 @@ bool ModulePlayer::Start()
 	idle_fx = App->audio->LoadFx("Game/FX/Car_idle.wav");
 	reproduced = false;
 	App->audio->PlayFx(start_fx);
+
 	
 	//App->audio->PlayFx(start_fx);
 	check_position = App->scene_intro->cp_coords[0];
+
+	check_position = App->scene_intro->cp_coords[3];
+
 
 	StartCar(check_position);
 
@@ -63,7 +67,7 @@ update_status ModulePlayer::Update(float dt)
 		
 
 		if (car_state == FAST) {
-			acceleration = acceleration * 1.2;
+			acceleration = 1000;
 			car_state = NORMAL;
 		}
 
@@ -98,8 +102,6 @@ update_status ModulePlayer::Update(float dt)
 	{
 		vehicle->SetPos(check_position.x, check_position.y, check_position.z);
 		vehicle->SetTransform(idle_trans);
-
-
 		brake = BRAKE_POWER;
 
 	}

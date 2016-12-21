@@ -28,6 +28,10 @@ bool ModuleSceneIntro::Start()
 	scream = App->audio->LoadFx("Game/Fx/Scream.wav");
 	congratulations_fx = App->audio->LoadFx("Game/Fx/Congratulations.wav");
 	check_point_fx = App->audio->LoadFx("Game/Fx/Check_point");
+
+	music = App->audio->LoadFx("Fx/Music.ogg");
+
+
 	//We create here how many cubes we need to make the map
 	//ACORDARSE DE CAMBIAR ESTO!!!!!!!!!! 
 	for (uint i = 0; i < 100; i++) {
@@ -160,7 +164,11 @@ bool ModuleSceneIntro::Start()
 
 	road_cubes[26].SetPos(-297, -11, 245);
 	road_cubes[26].size = vec3(7, 1, 20);
+
 	road_cubes[26].color = Blue;
+
+	road_cubes[26].color = Yellow;
+
 	sensor.size = vec3(7, 20, 20);
 	sensor.SetPos(-297, -11, 245);
 	body_sensor = App->physics->AddBody(sensor, 0);
@@ -213,7 +221,11 @@ bool ModuleSceneIntro::Start()
 
 	road_cubes[39].SetPos(-264.5, -11, 165);
 	road_cubes[39].size = vec3(12, 1, 5);
+
 	road_cubes[39].color = Blue;
+
+	road_cubes[39].color = Yellow;
+
 	sensor.size = vec3(12, 20, 5);
 	sensor.SetPos(-264.5, -11, 165);
 	body_sensor = App->physics->AddBody(sensor, 0);
@@ -299,7 +311,11 @@ bool ModuleSceneIntro::Start()
 
 	road_cubes[63].SetPos(-192.25, -7.5, 71);
 	road_cubes[63].size = vec3(12, 1, 10);
+
 	road_cubes[63].color = Blue;
+
+	road_cubes[63].color = Yellow;
+
 	sensor.size = vec3(12, 20, 10);
 	sensor.SetPos(-192.25, -7.5, 71);
 	body_sensor = App->physics->AddBody(sensor, 0);
@@ -317,16 +333,23 @@ bool ModuleSceneIntro::Start()
 	body_sensor->collision_listeners.add(this);
 	turbo_road.PushBack(body_sensor);
 
-	//ROTATING PLATFORM
+	//Flotating platforms segment
 	motor.radius = 1.0;
-	motor.SetPos(-300, -15, 20);
-	//motor.SetRotation(90.0, vec3(-1,0,0));
-	platform.size = vec3(50, 1, 50);
-	platform.SetPos(0, 0, 200);
+	motor.SetPos(-240, 10, 40);
+
+	float_plat1.size = vec3(80, 1, 80);
+	float_plat1.SetPos(-240, -15, 40);
 
 	PhysBody3D* bodyA = App->physics->AddBody(motor, 0);
-	PhysBody3D* bodyB = App->physics->AddBody(platform, 10);
-	App->physics->AddConstraintHinge(*bodyA, *bodyB, vec3(0, 0, 0), vec3(50, 0, 50), vec3(0, 1, 0), vec3(0, 1, 0), true);
+	PhysBody3D* bodyB = App->physics->AddBody(float_plat1, 350);
+	App->physics->AddConstraintP2P(*bodyA, *bodyB, vec3(0, 0, 0), vec3(0, 20, 0));
+
+	motor.SetPos(-300, 5, -30);
+	float_plat2.SetPos(-300, -10, -10);
+	float_plat2.size = vec3(80, 1, 80);
+	bodyA = App->physics->AddBody(motor, 0);
+	bodyB = App->physics->AddBody(float_plat2, 500);
+	App->physics->AddConstraintP2P(*bodyA, *bodyB, vec3(0, 0, 0), vec3(0, 20, 0));
 
 	//After rotating platform
 	road_cubes[18].SetPos(-300, -18, -100);
@@ -361,7 +384,7 @@ bool ModuleSceneIntro::Start()
 	//CHECKPOINT CREATION
 	//first we set the correct transforms
 
-	for (uint i = 0; i < 4; i++) {
+	for (uint i = 0; i < 5; i++) {
 		if (i == 0) {
 			for (uint j = 0; j < 16; j++) {
 				cp_transforms[i][j] = trs_check_0[j];
@@ -379,7 +402,18 @@ bool ModuleSceneIntro::Start()
 				cp_transforms[i][j] = trs_check_2[j];
 			}
 		}
-		//falta el ultimo checkpoint!!!!
+
+		else if (i == 3) {
+			for (uint j = 0; j < 16; j++) {
+				cp_transforms[i][j] = trs_check_3[j];
+			}
+		}
+
+		else if (i == 4) {
+			for (uint j = 0; j < 16; j++) {
+				cp_transforms[i][j] = trs_check_4[j];
+			}
+		}
 	}
 
 	//now the coords
@@ -412,7 +446,7 @@ bool ModuleSceneIntro::Start()
 	death_blocks[0]->SetAsSensor(true);
 	death_blocks[0]->collision_listeners.add(this);
 
-	map_cube.SetPos(0, -25, 0);
+	map_cube.SetPos(0, -40, 0);
 	death_blocks.PushBack(App->physics->AddBody(map_cube, 0));
 	death_blocks[1]->SetAsSensor(true);
 	death_blocks[1]->collision_listeners.add(this);
@@ -448,9 +482,15 @@ update_status ModuleSceneIntro::Update(float dt)
 		}
 	}
 
+
 	if (laps == 3) {
 		App->audio->PlayFx(congratulations_fx);
 	}
+
+	//esto esta mal
+	float_plat1.Render();
+	float_plat2.Render();
+
 	
 	return UPDATE_CONTINUE;
 }
@@ -458,64 +498,69 @@ update_status ModuleSceneIntro::Update(float dt)
 void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 {
 
+
+
+	if (body2 == App->player->vehicle) {
+
 		for (int i = 0; i < turbo_road.Count(); i++) {
 			if (turbo_road[i] == body1) {
 				App->player->car_state = FAST;
-		}
-
-		//CUANDO PONGAS BLOQUES DE SLOW QUITA ESTE COMENT
-		for (int i = 0; i < slow_road.Count(); i++) {
-			if (slow_road[i] == body1) {
-				App->player->car_state = SLOW;
 			}
-		}
 
-		//dejar comentado hasta tener todos los checkpoints operativos
-		/*for (int i = 0; i < checkpoints.Count(); i++) {
-			if (checkpoints[i] == body1) {
-				//these ifs avoid skipping checkpoints
-				if (i == 0 && (CHECK0 || CHECK4)) {
-					App->player->check_position = cp_coords[i];
-					//sets correct transform
-					for (uint j = 0; j < 16; j++)
-						App->player->idle_trans[j] = cp_transforms[i][j];
-					//adds a lap if circuit completed
-					if (CHECK4)
-						laps++;
-				}
-				else if (i != 0 && App->player->check_position.x == cp_coords[i - 1].x && App->player->check_position.y == cp_coords[i - 1].y && App->player->check_position.z == cp_coords[i - 1].z) {
-					App->player->check_position = cp_coords[i];
-					//sets correct transform
-					for (uint j = 0; j < 16; j++)
-						App->player->idle_trans[j] = cp_transforms[i][j];
-				}
-			}*/
-
-		for (int i = 0; i < checkpoints.Count(); i++) {
-			if (checkpoints[i] == body1) {
-				//these ifs avoid skipping checkpoints
-				if (i == 0 && (CHECK0 || CHECK4)) {
-					App->player->check_position = cp_coords[i];
-					App->player->vehicle->GetTransform(App->player->idle_trans);
-					if (CHECK4)
-						laps++;
-				}
-				else if (App->player->check_position.x == cp_coords[i - 1].x && App->player->check_position.y == cp_coords[i - 1].y && App->player->check_position.z == cp_coords[i - 1].z) {
-					App->player->check_position = cp_coords[i];
-					App->player->vehicle->GetTransform(App->player->idle_trans);
+			for (int i = 0; i < slow_road.Count(); i++) {
+				if (slow_road[i] == body1) {
+					App->player->car_state = SLOW;
 				}
 			}
 
-			if (death_blocks[1] == body1) {
-				App->player->vehicle->SetPos(App->player->check_position.x, App->player->check_position.y, App->player->check_position.z);
-				App->player->vehicle->SetTransform(App->player->idle_trans);
-			}
+			for (int i = 0; i < checkpoints.Count(); i++) {
+				if (checkpoints[i] == body1) {
+					//these ifs avoid skipping checkpoints
+					if (i == 0 && (CHECK0 || CHECK4)) {
+						App->player->check_position = cp_coords[i];
+						//sets correct transform
+						for (uint j = 0; j < 16; j++)
+							App->player->idle_trans[j] = cp_transforms[i][j];
+						//adds a lap if circuit completed
+						if (CHECK4)
+							laps++;
+					}
+					else if (i != 0 && App->player->check_position.x == cp_coords[i - 1].x && App->player->check_position.y == cp_coords[i - 1].y && App->player->check_position.z == cp_coords[i - 1].z) {
+						App->player->check_position = cp_coords[i];
+						//sets correct transform
+						for (uint j = 0; j < 16; j++)
+							App->player->idle_trans[j] = cp_transforms[i][j];
+					}
+				}
 
-			else if (death_blocks[0] == body1)
-				if (CHEATING1 || CHEATING2) {
+				/*for (int i = 0; i < checkpoints.Count(); i++) {
+					if (checkpoints[i] == body1) {
+						//these ifs avoid skipping checkpoints
+						if (i == 0 && (CHECK0 || CHECK4)) {
+							App->player->check_position = cp_coords[i];
+							App->player->vehicle->GetTransform(App->player->idle_trans);
+							if (CHECK4)
+								laps++;
+						}
+						else if (App->player->check_position.x == cp_coords[i - 1].x && App->player->check_position.y == cp_coords[i - 1].y && App->player->check_position.z == cp_coords[i - 1].z) {
+							App->player->check_position = cp_coords[i];
+							App->player->vehicle->GetTransform(App->player->idle_trans);
+						}
+					}
+				}*/
+
+				if (death_blocks[1] == body1) {
 					App->player->vehicle->SetPos(App->player->check_position.x, App->player->check_position.y, App->player->check_position.z);
 					App->player->vehicle->SetTransform(App->player->idle_trans);
 				}
+
+				else if (death_blocks[0] == body1) {
+					if (CHEATING1 || CHEATING2) {
+						App->player->vehicle->SetPos(App->player->check_position.x, App->player->check_position.y, App->player->check_position.z);
+						App->player->vehicle->SetTransform(App->player->idle_trans);
+					}
+				}
+			}
 		}
 	}
 }
