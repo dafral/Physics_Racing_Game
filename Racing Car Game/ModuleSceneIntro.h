@@ -36,7 +36,6 @@ public:
 
 	Cube sens;
 	PhysBody3D* ramp_sensor;
-
 	//special cubes
 	Cube platform;
 	Sphere motor;

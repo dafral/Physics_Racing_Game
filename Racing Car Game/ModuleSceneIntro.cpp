@@ -23,7 +23,6 @@ bool ModuleSceneIntro::Start()
 {
 	LOG("Loading Intro assets");
 	bool ret = true;
-	
 	race_time.Start();
 
 	//We create here how many cubes we need to make the map
