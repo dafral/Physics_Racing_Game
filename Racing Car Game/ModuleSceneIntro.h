@@ -51,6 +51,7 @@ public:
 	Timer race_time;
 	uint laps = 0;
 
+	uint finished = 0;
 	float cp_transforms[4][16];
 
 	//these trasnforms make than whenever you respawn you respawn in the correct position and not looking to another direction or with the car upside down

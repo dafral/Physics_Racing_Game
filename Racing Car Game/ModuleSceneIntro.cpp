@@ -454,7 +454,12 @@ update_status ModuleSceneIntro::Update(float dt)
 	if (laps == 2) {
 		App->audio->PlayFx(congratulations_fx);
 		race_time.Stop();
-		
+		laps = 0;
+		finished = 2;		
+	}
+
+	if (finished == 2) {
+		App->player->brake = 1000;
 	}
 
 	//floating platforms renderer
@@ -462,11 +467,6 @@ update_status ModuleSceneIntro::Update(float dt)
 	float_body2->GetTransform(float_plat2.transform.M);
 	float_plat1.Render();
 	float_plat2.Render();
-
-
-	
-
-
 	
 	return UPDATE_CONTINUE;
 }
