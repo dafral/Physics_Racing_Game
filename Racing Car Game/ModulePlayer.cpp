@@ -25,7 +25,7 @@ bool ModulePlayer::Start()
 
 	VehicleInfo car;
 	
-	check_position = App->scene_intro->cp_coords[0];
+	check_position = App->scene_intro->cp_coords[2];
 	StartCar(check_position);
 
 	vehicle->GetTransform(idle_trans);
