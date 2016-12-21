@@ -8,3 +8,4 @@ Color Black = Color(0.0f, 0.0f, 0.0f);
 Color White = Color(1.0f, 1.0f, 1.0f);
 Color Yellow = Color(1.0f, 1.0f, 0.0f);
 Color Grey = Color(0.4f, 0.4f, 0.4f);
+Color Pink = Color(1.0f, 0.55f, 0.6f);
