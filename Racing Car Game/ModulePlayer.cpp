@@ -27,7 +27,14 @@ bool ModulePlayer::Start()
 
 	start_fx = App->audio->LoadFx("Fx/Car_start.wav");
 	speed_fx = App->audio->LoadFx("Fx/Car_speed.wav");
+<<<<<<< HEAD
 
+=======
+	App->audio->PlayFx(start_fx);
+	check_position = App->scene_intro->cp_coords[2];
+
+	
+>>>>>>> origin/master
 	check_position = App->scene_intro->cp_coords[0];
 
 	StartCar(check_position);
@@ -55,7 +62,11 @@ update_status ModulePlayer::Update(float dt)
 
 		acceleration = MAX_ACCELERATION;
 		//App->audio->PlayFx(speed_fx);
+<<<<<<< HEAD
 
+=======
+		
+>>>>>>> origin/master
 		if (car_state == FAST) {
 			acceleration = acceleration * 1.2;
 			car_state = NORMAL;
@@ -94,7 +105,6 @@ update_status ModulePlayer::Update(float dt)
 		vehicle->SetPos(check_position.x, check_position.y, check_position.z);
 		vehicle->SetTransform(idle_trans);
 
-		App->audio->PlayFx(start_fx); 
 
 		brake = BRAKE_POWER;
 

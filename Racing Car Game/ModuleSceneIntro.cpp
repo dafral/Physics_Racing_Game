@@ -24,7 +24,7 @@ bool ModuleSceneIntro::Start()
 	LOG("Loading Intro assets");
 	bool ret = true;
 	race_time.Start();
-
+	music = App->audio->LoadFx("Fx/Music.ogg");
 	//We create here how many cubes we need to make the map
 	//ACORDARSE DE CAMBIAR ESTO!!!!!!!!!! 
 	for (uint i = 0; i < 100; i++) {
@@ -415,6 +415,7 @@ bool ModuleSceneIntro::Start()
 	death_blocks[1]->SetAsSensor(true);
 	death_blocks[1]->collision_listeners.add(this);
 	
+	App->audio->PlayFx(music, -1);
 
 	return ret;
 
