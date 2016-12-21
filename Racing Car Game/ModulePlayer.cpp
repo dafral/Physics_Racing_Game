@@ -23,8 +23,6 @@ bool ModulePlayer::Start()
 {
 	LOG("Loading player");
 
-	VehicleInfo car;
-
 	start_fx = App->audio->LoadFx("Game/Fx/Car_start.wav");
 	speed_fx = App->audio->LoadFx("Game/Fx/Car_speed.wav");
 	idle_fx = App->audio->LoadFx("Game/FX/Car_idle.wav");
@@ -32,12 +30,8 @@ bool ModulePlayer::Start()
 	App->audio->PlayFx(start_fx);
 
 	
-	//App->audio->PlayFx(start_fx);
+	App->audio->PlayFx(start_fx);
 	check_position = App->scene_intro->cp_coords[0];
-
-	check_position = App->scene_intro->cp_coords[3];
-
-
 	StartCar(check_position);
 
 	vehicle->GetTransform(idle_trans);
@@ -60,11 +54,8 @@ update_status ModulePlayer::Update(float dt)
  
 	if(App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
 	{
-		km = vehicle->GetKmh();
-		if (km < 120) {
+	
 			acceleration = MAX_ACCELERATION;
-		}
-		
 
 		if (car_state == FAST) {
 			acceleration = 1000;
@@ -103,7 +94,6 @@ update_status ModulePlayer::Update(float dt)
 		vehicle->SetPos(check_position.x, check_position.y, check_position.z);
 		vehicle->SetTransform(idle_trans);
 		brake = BRAKE_POWER;
-
 	}
 
 	//camera following the car
@@ -134,9 +124,9 @@ void ModulePlayer::StartCar(vec3 pos) {
 	car.chassis_size.Set(2, 1, 4);
 	car.chassis_offset.Set(0, 1.5, 0);
 	car.mass = 150.0f;
-	car.suspensionStiffness = 13.88f;
-	car.suspensionCompression = 0.83f;
-	car.suspensionDamping = 0.50f;
+	car.suspensionStiffness = 20.0f;
+	car.suspensionCompression = 1.0f;
+	car.suspensionDamping = 1.0f;
 	car.maxSuspensionTravelCm = 1000.0f;
 	car.frictionSlip = 50.5;
 	car.maxSuspensionForce = 5000.0f;

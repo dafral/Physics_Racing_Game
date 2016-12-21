@@ -36,10 +36,11 @@ public:
 
 	//Music
 	uint music;
-	uint scream;
 	uint check_point_fx;
 	uint congratulations_fx;
 
+	PhysBody3D* float_body1;
+	PhysBody3D* float_body2;
 	Cube float_plat1, float_plat2;
 	Sphere motor;
 
