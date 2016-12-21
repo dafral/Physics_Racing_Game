@@ -29,6 +29,10 @@ bool ModuleSceneIntro::Start()
 	music = App->audio->LoadFx("Fx/Music.ogg");
 	congratulations_fx = App->audio->LoadFx("Fx/Congratulations.wav");
 	check_point_fx = App->audio->LoadFx("Fx/Check_point.wav");
+<<<<<<< HEAD
+=======
+	music = App->audio->LoadFx("Fx/Music.ogg");
+>>>>>>> origin/master
 
 	//We create here how many cubes we need to make the map
 	for (uint i = 0; i < 65; i++) {

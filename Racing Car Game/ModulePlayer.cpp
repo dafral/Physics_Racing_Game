@@ -24,8 +24,11 @@ bool ModulePlayer::Start()
 	LOG("Loading player");
 
 	start_fx = App->audio->LoadFx("Fx/Car_start.wav");
+<<<<<<< HEAD
 	speed_fx = App->audio->LoadFx("Fx/Car_speed.wav");
 	idle_fx = App->audio->LoadFx("FX/Car_idle.wav");
+=======
+>>>>>>> origin/master
 	reproduced = false;
 	App->audio->PlayFx(start_fx);
 
