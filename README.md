@@ -11,11 +11,16 @@ Oh, and don't try to cheat jumping to the low area if you haven't finished the h
 
 ###Controls
 Arrow Keys -----------> Movement (You can go backwards too if you want)
+
 Space      -----------> Brake
+
 R          -----------> Respawn (You will respawn in the last checkpoint)
 
 ###Special Blocks
 Green Floor  ---------> TURBO!
+
 Yellow Floor ---------> Sticky floor (You will be slower)
+
 Pink Floor -----------> Flotating platforms (Be careful or you will fall!)
+
 Red Lasers -----------> Checkpoints
