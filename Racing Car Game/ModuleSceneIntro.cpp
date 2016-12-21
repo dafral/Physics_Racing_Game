@@ -453,7 +453,8 @@ update_status ModuleSceneIntro::Update(float dt)
 
 	if (laps == 2) {
 		App->audio->PlayFx(congratulations_fx);
-		race_time.Stop();
+		race_time.Start();
+		laps = 0;
 		
 	}
 
