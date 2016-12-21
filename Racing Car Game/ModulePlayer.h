@@ -32,8 +32,6 @@ public:
 	//Fx
 	
 	uint start_fx;
-	
-	bool reproduced;
 	float idle_trans[16];
 	vec3 check_position;
 	state car_state = NORMAL;
