@@ -28,9 +28,6 @@ bool ModulePlayer::Start()
 	start_fx = App->audio->LoadFx("Fx/Car_start.wav");
 	speed_fx = App->audio->LoadFx("Fx/Car_speed.wav");
 
-	check_position = App->scene_intro->cp_coords[2];
-
-	
 	check_position = App->scene_intro->cp_coords[0];
 
 	StartCar(check_position);
@@ -57,7 +54,8 @@ update_status ModulePlayer::Update(float dt)
 	{
 
 		acceleration = MAX_ACCELERATION;
-		App->audio->PlayFx(speed_fx);
+		//App->audio->PlayFx(speed_fx);
+
 		if (car_state == FAST) {
 			acceleration = acceleration * 1.2;
 			car_state = NORMAL;
@@ -65,9 +63,6 @@ update_status ModulePlayer::Update(float dt)
 
 		else if (car_state == SLOW) {
 			acceleration = 0.00000001;
-			/*if(acceleration > 400)
-				brake = 20;
-			//brake = 20;*/
 			car_state = NORMAL;
 		}
 	}
@@ -86,7 +81,7 @@ update_status ModulePlayer::Update(float dt)
 
 	if(App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
 	{
-		acceleration = -1000.0;
+		acceleration = -MAX_ACCELERATION;
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_REPEAT)
